@@ -9,6 +9,8 @@ import Expenses from "./pages/Expenses";
 import Setting from "./pages/Setting";
 import Signup from "./pages/Signup"
 import Homepage from "./pages/Homepage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function MainLayout({children}) {
@@ -37,16 +39,20 @@ function AuthLayout({ children }) {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<AuthLayout><Homepage /></AuthLayout>} />
-        <Route path="/signup" element={<AuthLayout><Signup /></AuthLayout>} />
-        <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
-        <Route path="/income" element={<MainLayout><Income /></MainLayout>} />
-        <Route path="/expenses" element={<MainLayout><Expenses /></MainLayout>} />
-        <Route path="/setting" element={<MainLayout><Setting /></MainLayout>} />
-      </Routes>
-    </Router>
+    <>
+    <ToastContainer />
+      <Router>
+          <Routes>
+            <Route path="/" element={<AuthLayout><Homepage /></AuthLayout>} />
+            <Route path="/signup" element={<AuthLayout><Signup /></AuthLayout>} />
+            <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
+            <Route path="/income" element={<MainLayout><Income /></MainLayout>} />
+            <Route path="/expenses" element={<MainLayout><Expenses /></MainLayout>} />
+            <Route path="/setting" element={<MainLayout><Setting /></MainLayout>} />
+          </Routes>
+      </Router>
+    </>
+
   );
 }
 export default App;

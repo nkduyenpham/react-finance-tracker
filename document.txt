@@ -1,0 +1,11 @@
+Firebase user authentication 
+
+1 -- Sign up 
+
+2 -- Log in 
+
+3 -- Manage users in Firebase
+
+https://firebase.google.com/docs/firestore/manage-data/add-data
+
+a -- add a document 

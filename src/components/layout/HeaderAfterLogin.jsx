@@ -1,9 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { auth } from "../../firebase"
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getAuth, signOut } from "firebase/auth";
 
 const HeaderAfterLogin = () => {
+    const [user, loading] = useAuthState(auth);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user) {
+            navigate("/dashboard")
+        }
+    }, [user, loading])
+
+    const logout = () => {
+        try {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                toast.success("Logged out successful!")
+                navigate("/signin")
+            }).catch((error) => {
+                toast.error(error.message)
+            });
+        } catch (e) {
+            toast.error(e)
+        }
+    }
+
     return (
-        <div className='flex p-5 border shadow-sm justify-end px-10 bg-primary'>
-            <div>User</div>
+        <div className='flex p-5 border shadow-sm justify-between px-10 bg-primary'>
+            <p>PERFIN.</p>
+            {user && (
+                <p className='hover:cursor-pointer' onClick={logout}>Logout</p>
+            )}
         </div>
     )
 }

@@ -18,7 +18,7 @@
 //         console.log("Name", name)
 //         console.log("email", email)
 //         console.log("password", password)
-//         console.log("confirmPassword", confirmPassword)
+//         console.log("confirmP    assword", confirmPassword)
 //         // authenticate the user, or create a new account using email and password
 //         if (name !== "" && email !== "" && password !== "" && confirmPassword !== "") {
 //             if (confirmPassword === password) {

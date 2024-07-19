@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import FormInput from '../components/common/FormInput'
 import Button from '../components/common/Button';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../firebase";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -29,11 +29,8 @@ const Signup = () => {
                 try {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     const user = userCredential.user;
-
                     console.log("User >>>>", user);
-
                     await createUserDocument(user);
-
                     toast.success("User created!");
                     setLoading(false);
                     setName("");
@@ -86,6 +83,39 @@ const Signup = () => {
         }
     };
 
+    const googleAuth = () => {
+        setLoading(true);
+        try {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    createUserDocument(user)
+                    setLoading(false);
+                    console.log("user >>>", user)
+                    toast.success("User authenticated!")
+                    navigate("/dashboard")
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    toast.error(errorMessage)
+                    // The email of the user's account used.
+                    // const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    // const credential = GoogleAuthProvider.credentialFromError(error);
+                    // ...
+                });
+        } catch (e) {
+            toast.error(e.message)
+        }
+    }
+
     return (
         <div className='w-full h-screen flex justify-center items-center'>
             <div className='border shadow-sm p-10 w-[80%] md:w-[70%] lg:w-[40%] rounded-lg'>
@@ -126,7 +156,9 @@ const Signup = () => {
                             onClick={signupWithEmail}
                         />
                         <p>or</p>
-                        <Button text={"Signup Using Email & Password"} green={true} />
+                        <Button
+                            onClick={googleAuth}
+                            text={"Signup Using Gmail"} green={true} />
                         <p className='text-center'>Had account already? <span className='cursor-pointer text-blue-500'>Sign In</span></p>
                     </div>
                 </form>

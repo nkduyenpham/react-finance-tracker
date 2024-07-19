@@ -9,3 +9,9 @@ Firebase user authentication
 https://firebase.google.com/docs/firestore/manage-data/add-data
 
 a -- add a document 
+
+
+## How to use the redux 
+
+Use useSelector to read from the Redux store and useDispatch to dispatch actions. Update your Signup component:
+

@@ -33,7 +33,8 @@ const Sidebar = () => {
                 </Link>
             </div>
             <div className='text-sm pt-[800px]'>
-                PERFIN. @ 2024 all right reserved
+                PERFIN. by Duyen Pham
+                <br />@ 2024 all right reserved
             </div>
         </nav>
     )

@@ -30,8 +30,8 @@ const HeaderAfterLogin = () => {
     }
 
     return (
-        <div className='flex p-5 border shadow-sm justify-between px-10 bg-primary'>
-            <p>PERFIN.</p>
+        <div className='flex p-5 border shadow-sm justify-between px-10 bg-primary font-bold text-white text-[20px]'>
+            <p>Control your spending!! 🥲</p>
             {user && (
                 <p className='hover:cursor-pointer' onClick={logout}>Logout</p>
             )}

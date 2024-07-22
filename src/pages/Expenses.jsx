@@ -1,28 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, DatePicker, Form, Input, Select, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addExpense, selectExpenses } from '../redux/finance/financeSlice';
+import { addExpense, selectExpenses, setExpenses } from '../redux/finance/financeSlice';  // Corrected import
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebase";
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { toast } from "react-toastify";
 
 const Expenses = () => {
+    const [user] = useAuthState(auth);
+
     // Initialize Ant Design form
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     // Select expenses data from Redux store
-    const expenses = useSelector(selectExpenses);
+    const expenses = useSelector(selectExpenses);  // Corrected to selectExpenses
 
-    // Handle form submission
-    const handleSubmit = (values) => {
-        // Create a new expense object
+    useEffect(() => {
+        const fetchExpenses = async () => {
+            if (user) {
+                const querySnapshot = await getDocs(collection(db, `users/${user.uid}/expense`));
+                const expensesData = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                dispatch(setExpenses(expensesData));  // Corrected to setExpenses
+            }
+        };
+
+        fetchExpenses();
+    }, [user, dispatch]);
+
+    // Handle form submission: add expense to Firebase + update the Redux state
+    const handleSubmit = async (values) => {
         const newExpense = {
-            id: Date.now(), // Unique id
+            type: 'expense',
             name: values.name,
-            amount: parseFloat(values.amount), // Convert amount to number
-            date: values.date.format('YYYY-MM-DD'), // Format date
+            amount: parseFloat(values.amount),
+            date: values.date.format('YYYY-MM-DD'),
             tag: values.tag,
         };
-        console.log(newExpense); // Debug: log new expense
-        dispatch(addExpense(newExpense)); // Dispatch action to add expense
-        form.resetFields(); // Reset form fields
+
+        try {
+            const docRef = await addDoc(collection(db, `users/${user.uid}/expense`), newExpense);
+            newExpense.id = docRef.id; // Set the ID from Firebase
+            dispatch(addExpense(newExpense));
+            toast.success("Expense Added!");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            toast.error("Couldn't add Expense");
+        }
+        form.resetFields();
     };
 
     // Define columns for the Ant Design Table

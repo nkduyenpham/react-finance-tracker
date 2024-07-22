@@ -1,25 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, DatePicker, Form, Input, Select, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addIncome, selectIncome } from '../redux/finance/financeSlice';
+import { addIncome, selectIncome, setIncome } from '../redux/finance/financeSlice';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebase";
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { toast } from "react-toastify";
+
 
 const Income = () => {
+    const [user] = useAuthState(auth);
 
     const [form] = Form.useForm();
     const dispatch = useDispatch();
 
     const incomes = useSelector(selectIncome);
 
-    const handleSubmit = (values) => {
+    useEffect(() => {
+        const fetchIncome = async () => {
+            if (user) {
+                const querySnapshot = await getDocs(collection(db, `users/${user.uid}/income`));
+                const incomeData = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                dispatch(setIncome(incomeData));
+                console.log(incomeData)
+            }
+        };
+
+        fetchIncome();
+    }, [user, dispatch]);
+
+    const handleSubmit = async (values) => {
         const newIncome = {
-            id: Date.now(),
+            type: 'income',
+            id: new Date(),
             name: values.name,
             amount: parseFloat(values.amount),
             date: values.date.format('YYYY-MM-DD'),
             tag: values.tag,
+        };
+        try {
+            const docRef = await addDoc(collection(db, `users/${user.uid}/income`), newIncome);
+            newIncome.id = docRef.id; // Set the ID from Firebase
+            dispatch(addIncome(newIncome));
+            toast.success("Income Added!");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            toast.error("Couldn't add Income");
         }
-        console.log(newIncome);
-        dispatch(addIncome(newIncome));
         form.resetFields();
     }
 

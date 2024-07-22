@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/react-finance-tracker/static/css/main.f9194b59.css",
+    "main.js": "/react-finance-tracker/static/js/main.28030e48.js",
+    "static/media/transactions.svg": "/react-finance-tracker/static/media/transactions.004d9f02317991455e50b36d9dae2a26.svg",
+    "index.html": "/react-finance-tracker/index.html",
+    "main.f9194b59.css.map": "/react-finance-tracker/static/css/main.f9194b59.css.map",
+    "main.28030e48.js.map": "/react-finance-tracker/static/js/main.28030e48.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f9194b59.css",
+    "static/js/main.28030e48.js"
+  ]
+}

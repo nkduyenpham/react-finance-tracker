@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import FormInput from '../components/common/FormInput';
 import Button from '../components/common/Button';
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import { googleAuth, createUserDocument } from './Signup'; // Import functions
+import { googleAuth } from './Signup'; // Import functions
 import { useDispatch } from 'react-redux';
-import { setLoading, setNavigation } from '../actions/authActions'; // Import actions
+import { setNavigation } from '../actions/authActions'; // Import actions
 
 const Signin = () => {
     const [email, setEmail] = useState("");

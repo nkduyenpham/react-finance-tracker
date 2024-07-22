@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Row } from "antd"
-import Button from '../components/common/Button'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { setExpenses, setIncome, selectExpenses, selectIncome, selectTotalIncome, selectTotalExpenses, selectBalance } from '../redux/finance/financeSlice';
+import { setExpenses, setIncome, selectExpenses, selectIncome } from '../redux/finance/financeSlice';
 import FirstLineCard from '../components/layout/dashboard/FirstLineCard';
 import TransactionTable from '../components/layout/dashboard/TransactionTable';
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -23,9 +20,9 @@ const Dashboard = () => {
 
     const expenses = useSelector(selectExpenses);
     const income = useSelector(selectIncome);
-    const totalIncome = useSelector(selectTotalIncome);
-    const totalExpenses = useSelector(selectTotalExpenses);
-    const balance = useSelector(selectBalance);
+    // const totalIncome = useSelector(selectTotalIncome);
+    // const totalExpenses = useSelector(selectTotalExpenses);
+    // const balance = useSelector(selectBalance);
 
     useEffect(() => {
         const fetchFinanceData = async () => {

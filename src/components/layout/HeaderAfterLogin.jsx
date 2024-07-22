@@ -3,10 +3,10 @@ import { auth } from "../../firebase"
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 const HeaderAfterLogin = () => {
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const navigate = useNavigate()
     const location = useLocation();
 
@@ -15,7 +15,7 @@ const HeaderAfterLogin = () => {
         if (user) {
             navigate("/dashboard")
         }
-    }, [user, loading])
+    }, [user, navigate])
 
     const logout = () => {
         try {

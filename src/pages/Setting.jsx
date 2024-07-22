@@ -1,7 +1,6 @@
 import React from 'react';
 import { Result } from 'antd';
 import { Link } from 'react-router-dom';
-import Button from '../components/common/Button';
 
 const Setting = () => {
     return (

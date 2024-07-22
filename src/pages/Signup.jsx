@@ -180,7 +180,7 @@ import Button from '../components/common/Button';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../firebase";
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { setLoading, setNavigation } from '../actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -306,6 +306,7 @@ const Signup = () => {
                         <Button disable={loading}
                             text={loading ? "Loading..." : "Signup Using Email & Password"}
                             type="submit"
+                            onClick={signupWithEmail}
                         />
                         <p>or</p>
                         <Button
@@ -313,7 +314,7 @@ const Signup = () => {
                             text={"Signup Using Gmail"}
                             green={true}
                         />
-                        <p className='text-center'>Had account already? <span className='cursor-pointer text-blue-500'>Sign In</span></p>
+                        <p className='text-center'>Had account already? <Link to="/signin"><span className='cursor-pointer text-blue-500'>Sign In</span></Link></p>
                     </div>
                 </form>
             </div>

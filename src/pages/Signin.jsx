@@ -4,7 +4,7 @@ import Button from '../components/common/Button';
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { googleAuth, createUserDocument } from './Signup'; // Import functions
 import { useDispatch } from 'react-redux';
 import { setLoading, setNavigation } from '../actions/authActions'; // Import actions
@@ -73,8 +73,7 @@ const Signin = () => {
                             green={true}
                             onClick={handleSignInGmail}
                         />
-                        <p className='text-center py-3'>Don't have an account? <span className='cursor-pointer text-blue-600'>Sign Up</span></p>
-                        <p className='text-center'>Forget your password? <span className='cursor-pointer text-blue-600'>Click here</span></p>
+                        <Link to="/"><p className='text-center py-3'>Don't have an account? <span className='cursor-pointer text-blue-600'>Sign Up</span></p></Link>
                     </div>
                 </form>
             </div>

@@ -9,7 +9,6 @@ import Expenses from "./pages/Expenses";
 import Setting from "./pages/Setting";
 import Signup from "./pages/Signup"
 import Signin from "./pages/Signin"
-import Homepage from "./pages/Homepage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -44,8 +43,7 @@ function App() {
     <ToastContainer />
       <Router>
           <Routes>
-            <Route path="/" element={<AuthLayout><Homepage /></AuthLayout>} />
-            <Route path="/signup" element={<AuthLayout><Signup /></AuthLayout>} />
+            <Route path="/" element={<AuthLayout><Signup /></AuthLayout>} />
             <Route path="/signin" element={<AuthLayout><Signin /></AuthLayout>} />
             <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
             <Route path="/income" element={<MainLayout><Income /></MainLayout>} />

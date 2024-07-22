@@ -79,7 +79,7 @@ const Dashboard = () => {
 
     return (
         <div>
-            <div className="flex justify-end items-center px-10 py-3">
+            <div className="flex justify-end items-center px-10 py-3 mr-3">
                 {/* <Button onClick={() => setSelectedMonth(new Date().toISOString().slice(0, 7))}>
                     Filter by Current Month
                 </Button> */}
@@ -87,7 +87,7 @@ const Dashboard = () => {
                     type="month"
                     value={selectedMonth}
                     onChange={handleMonthChange}
-                    className="border rounded p-3"
+                    className="border rounded-lg shadow-sm p-3"
                 />
             </div>
             <FirstLineCard

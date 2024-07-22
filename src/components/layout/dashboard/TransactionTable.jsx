@@ -95,10 +95,10 @@ const TransactionTable = ({ mergedData }) => {
                 </Select>
             </div>
             <div className="flex justify-center space-x-2 mb-5">
-                <Button onClick={() => handleSortChange('date')} className="bg-blue-500 hover:bg-blue-600 text-white">
+                <Button onClick={() => handleSortChange('date')} className="bg-primary text-white hover:bg-white">
                     Sort by Date
                 </Button>
-                <Button onClick={() => handleSortChange('amount')} className="bg-blue-500 hover:bg-blue-600 text-white">
+                <Button onClick={() => handleSortChange('amount')} className="bg-primary text-white hover:bg-white">
                     Sort by Amount
                 </Button>
                 <Button onClick={handleReset} className="bg-gray-200 hover:bg-gray-300">

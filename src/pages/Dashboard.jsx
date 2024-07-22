@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Row } from "antd"
 import Button from '../components/common/Button'
 import { Link } from 'react-router-dom'
@@ -9,12 +9,17 @@ import TransactionTable from '../components/layout/dashboard/TransactionTable';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { collection, getDocs } from 'firebase/firestore';
+import Charts from '../components/layout/dashboard/Charts';
+import NoTransactions from '../components/layout/dashboard/NoTransaction';
 
 
 const Dashboard = () => {
     const [user] = useAuthState(auth);
-
     const dispatch = useDispatch();
+
+    // state for month filter
+
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7)); // Default to current month
 
     const expenses = useSelector(selectExpenses);
     const income = useSelector(selectIncome);
@@ -46,22 +51,58 @@ const Dashboard = () => {
         fetchFinanceData();
     }, [user, dispatch]);
 
+    // Function to filter data by selected month
+    const filterByMonth = (data, month) => {
+        return data.filter(item => item.date.startsWith(month));
+    };
+
+    const filteredExpenses = filterByMonth(expenses, selectedMonth);
+    const filteredIncome = filterByMonth(income, selectedMonth);
+
+    const calculateTotal = (data) => {
+        return data.reduce((acc, item) => acc + item.amount, 0);
+    };
+
+    const filteredTotalIncome = calculateTotal(filteredIncome);
+    const filteredTotalExpenses = calculateTotal(filteredExpenses);
+    const filteredBalance = filteredTotalIncome - filteredTotalExpenses;
+
     const mergedData = [
-        ...income.map(item => ({ ...item, type: 'Income' })),
-        ...expenses.map(item => ({ ...item, type: 'Expense' }))
+        ...filteredIncome.map(item => ({ ...item, type: 'Income' })),
+        ...filteredExpenses.map(item => ({ ...item, type: 'Expense' }))
     ];
+
+    const handleMonthChange = (event) => {
+        setSelectedMonth(event.target.value);
+    };
+
 
     return (
         <div>
+            <div className="flex justify-end items-center px-10 py-3">
+                {/* <Button onClick={() => setSelectedMonth(new Date().toISOString().slice(0, 7))}>
+                    Filter by Current Month
+                </Button> */}
+                <input
+                    type="month"
+                    value={selectedMonth}
+                    onChange={handleMonthChange}
+                    className="border rounded p-3"
+                />
+            </div>
             <FirstLineCard
-                totalIncome={totalIncome}
-                totalExpenses={totalExpenses}
-                balance={balance}
+                totalIncome={filteredTotalIncome}
+                totalExpenses={filteredTotalExpenses}
+                balance={filteredBalance}
             />
-            <h3 className='text-[20px] font-bold'>All Transactions</h3>
-            <TransactionTable
-                mergedData={mergedData}
-            />
+            {filteredExpenses.length !== 0 || filteredIncome.length !== 0 ? (
+                <Charts expenses={filteredExpenses} income={filteredIncome} />
+            ) : (
+                <NoTransactions />
+            )}
+
+            <h3 className='text-[20px] font-bold'>ALL TRANSACTIONS</h3>
+            <TransactionTable mergedData={mergedData} />
         </div>
     )
 }

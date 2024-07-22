@@ -19,7 +19,6 @@ A comprehensive personal finance tracker built from scratch using React, Firebas
 - **Redux**: A predictable state container for JavaScript apps.
 - **Firebase**: A platform developed by Google for creating mobile and web applications, used here for user authentication.
 - **Ant Design**: A design system for enterprise-level products, providing a set of high-quality React components.
-- **Chart.js**: A JavaScript library for creating charts to visualize data.
 
 ## Usage
 

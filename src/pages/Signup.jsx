@@ -177,7 +177,7 @@
 import React, { useState } from 'react';
 import FormInput from '../components/common/FormInput';
 import Button from '../components/common/Button';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../firebase";
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
@@ -214,7 +214,7 @@ export const googleAuth = async (dispatch, navigate) => {
     dispatch(setLoading(true));
     try {
         const result = await signInWithPopup(auth, provider);
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         await createUserDocument(user);
         toast.success("User authenticated!");

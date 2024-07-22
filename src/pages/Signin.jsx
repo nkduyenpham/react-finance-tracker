@@ -24,6 +24,7 @@ const Signin = () => {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 toast.success("User logged In!");
+                console.log(user)
                 dispatch(setNavigation('/dashboard'));
                 navigate('/dashboard');
             } catch (error) {

@@ -24,3 +24,6 @@ yarn-error.log*
 
 # document
 .txt
+
+# Environment variables
+.env

@@ -1,11 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import './App.css';
 import Sidebar from './components/layout/Sidebar';
 import HeaderAfterLogin from './components/layout/HeaderAfterLogin';
 import HeaderBeforeLogin from "./components/layout/HeaderBeforeLogin";
 import Dashboard from "./pages/Dashboard";
-import Income from "./pages/Income";
-import Expenses from "./pages/Expenses";
 import Setting from "./pages/Setting";
 import Signup from "./pages/Signup"
 import Signin from "./pages/Signin"
@@ -46,9 +44,9 @@ function App() {
             <Route path="/" element={<AuthLayout><Signup /></AuthLayout>} />
             <Route path="/signin" element={<AuthLayout><Signin /></AuthLayout>} />
             <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
-            <Route path="/income" element={<MainLayout><Income /></MainLayout>} />
-            <Route path="/expenses" element={<MainLayout><Expenses /></MainLayout>} />
-            <Route path="/setting" element={<MainLayout><Setting /></MainLayout>} />
+\            <Route path="/setting" element={<MainLayout><Setting /></MainLayout>} />
+            {/* Optional: Redirect unknown routes to dashboard */}
+            <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
       </Router>
     </>

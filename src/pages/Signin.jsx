@@ -1,47 +1,42 @@
+// src/pages/Signin.jsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import FormInput from '../components/common/FormInput';
 import Button from '../components/common/Button';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
-import { googleAuth } from './Signup'; // Import functions
-import { useDispatch } from 'react-redux';
-import { setNavigation } from '../actions/authActions'; // Import actions
 
 const Signin = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { loading, loginWithEmail, googleAuth } = useFirebaseAuth();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const loginUsingEmail = async (event) => {
         event.preventDefault();
-        setLoading(true);
-        if (email !== "" && password !== "") {
+        dispatch(signInStart());
+        if (email !== '' && password !== '') {
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                toast.success("User logged In!");
-                console.log(user)
-                dispatch(setNavigation('/dashboard'));
-                navigate('/dashboard');
+                const user = await loginWithEmail(email, password, navigate);
+                dispatch(signInSuccess(user));
             } catch (error) {
-                const errorMessage = error.message;
-                toast.error(errorMessage);
-            } finally {
-                setLoading(false);
+                dispatch(signInFailure(error.message));
             }
         } else {
-            toast.error("All fields are mandatory!");
-            setLoading(false);
+            toast.error('Email and password cannot be empty');
         }
-    }
+    };
 
     const handleSignInGmail = async () => {
-        await googleAuth(dispatch, navigate); // Pass dispatch and navigate
-    }
+        try {
+            await googleAuth(navigate);
+        } catch (error) {
+            toast.error('Failed to sign in with Gmail');
+        }
+    };
 
     return (
         <div className='w-full h-screen flex justify-center items-center'>
@@ -49,37 +44,38 @@ const Signin = () => {
                 <h2 className='text-xl my-5'>Login to <span className='text-emerald-700 font-bold'>PERFIN.</span></h2>
                 <form onSubmit={loginUsingEmail}>
                     <FormInput
-                        type="email"
-                        label={"Email"}
+                        type='email'
+                        label={'Email'}
                         state={email}
                         setState={setEmail}
-                        placeholder={"duyenpham@gmail.com"}
+                        placeholder={'duyenpham@gmail.com'}
                     />
                     <FormInput
-                        type="password"
-                        label={"Password"}
+                        type='password'
+                        label={'Password'}
                         state={password}
                         setState={setPassword}
-                        placeholder={"Example123"}
+                        placeholder={'Example123'}
                     />
                     <div>
                         <Button
-                            disable={loading}
-                            text={loading ? "Loading..." : "Sign In"}
                             type="submit"
+                            text="Signin Using Email"
+                            disabled={loading}
                         />
                         <p>or</p>
                         <Button
-                            text={"Sign In with Gmail"}
+                            text={'Sign In with Gmail'}
                             green={true}
                             onClick={handleSignInGmail}
+                            disabled={loading}
                         />
-                        <Link to="/"><p className='text-center py-3'>Don't have an account? <span className='cursor-pointer text-blue-600'>Sign Up</span></p></Link>
+                        <Link to='/'><p className='text-center py-3'>Don't have an account? <span className='cursor-pointer text-blue-600'>Sign Up</span></p></Link>
                     </div>
                 </form>
             </div>
         </div>
     );
-}
+};
 
 export default Signin;

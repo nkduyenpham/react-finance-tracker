@@ -16,13 +16,13 @@ const Dashboard = () => {
     const income = useSelector(selectIncome);
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
 
-    const fetchData = useCallback(() => {
-        fetchFinanceData(user, dispatch);
-    }, [user, dispatch]);
+    // const fetchData = useCallback(() => {
+    //     fetchFinanceData(user, dispatch);
+    // }, [user, dispatch]);
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+    // useEffect(() => {
+    //     fetchData();
+    // }, [fetchData]);
 
     const filterByMonth = (data, month) => {
         if (!Array.isArray(data)) {

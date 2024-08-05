@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectExpenses, selectIncome } from '../redux/finance/financeSlice';
 import FirstLineCard from '../components/layout/dashboard/FirstLineCard';
 import TransactionTable from '../components/layout/dashboard/TransactionTable';
@@ -7,13 +7,21 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import Charts from '../components/layout/dashboard/Charts';
 import NoTransactions from '../components/layout/dashboard/NoTransaction';
-
+import { fetchFinanceData } from '../utils/fetchFinanceData.js';
 const Dashboard = () => {
     const [user] = useAuthState(auth);
-    console.log(user)
+    const dispatch = useDispatch();
     const expenses = useSelector(selectExpenses);
     const income = useSelector(selectIncome);
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+
+    const fetchData = useCallback(() => {
+        fetchFinanceData(user, dispatch);
+    }, [user, dispatch]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const filterByMonth = (data, month) => {
         if (!Array.isArray(data)) {

@@ -10,7 +10,7 @@ const TransactionTable = ({ mergedData }) => {
     const [typeFilter, setTypeFilter] = useState('');
     const [sortKey, setSortKey] = useState('');
 
-    const columns = [
+    const large_columns = [
         {
             title: 'Name',
             dataIndex: 'name',
@@ -38,6 +38,25 @@ const TransactionTable = ({ mergedData }) => {
             key: 'tag',
         },
     ];
+
+    const small_columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            key: 'amount',
+            render: (text) => `$${text.toFixed(2)}`, // Format amount as currency
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+        },
+    ]
 
     const handleFilterChange = (value) => {
         setTypeFilter(value);
@@ -106,7 +125,7 @@ const TransactionTable = ({ mergedData }) => {
                 </Button>
             </div>
             <Table
-                columns={columns}
+                columns={large_columns}
                 dataSource={sortedData.map((item) => ({ ...item, key: item.id }))}
             />
         </div>

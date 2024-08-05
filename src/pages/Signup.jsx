@@ -68,14 +68,14 @@ const Signup = () => {
                     />
                     <div>
                         <Button
-                            text="Signup Using Email & Password"
+                            text="Register"
                             type="submit"
                             disabled={loading}
                         />
                         <p>or</p>
                         <Button
                             onClick={() => googleAuth(navigate)}
-                            text="Signup Using Gmail"
+                            text="Using Gmail"
                             green
                             disabled={loading}
                         />

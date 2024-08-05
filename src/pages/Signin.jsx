@@ -60,12 +60,12 @@ const Signin = () => {
                     <div>
                         <Button
                             type="submit"
-                            text="Signin Using Email"
+                            text="Signin"
                             disabled={loading}
                         />
                         <p>or</p>
                         <Button
-                            text={'Signin using Gmail'}
+                            text={'Using Gmail'}
                             green={true}
                             onClick={handleSignInGmail}
                             disabled={loading}

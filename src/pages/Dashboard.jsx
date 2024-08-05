@@ -7,23 +7,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import Charts from '../components/layout/dashboard/Charts';
 import NoTransactions from '../components/layout/dashboard/NoTransaction';
-// import { fetchFinanceData } from '../utils/fetchFinanceData.js';
 
 const Dashboard = () => {
     const [user] = useAuthState(auth);
     console.log(user)
-    // const dispatch = useDispatch();
     const expenses = useSelector(selectExpenses);
     const income = useSelector(selectIncome);
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
-
-    // const fetchData = useCallback(() => {
-    //     fetchFinanceData(user, dispatch);
-    // }, [user, dispatch]);
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, [fetchData]);
 
     const filterByMonth = (data, month) => {
         if (!Array.isArray(data)) {

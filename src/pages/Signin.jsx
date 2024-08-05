@@ -39,7 +39,7 @@ const Signin = () => {
     };
 
     return (
-        <div className='w-full h-[90vh] mt-[50px] flex justify-center items-center'>
+        <div className='w-full h-[90vh] mt-[5rem] flex justify-center items-center'>
             <div className='border shadow-sm p-5 md:p-10 w-[80%] md:w-[70%] lg:w-[40%] rounded-lg'>
                 <h2 className='text-xl my-5'>Login to <span className='text-emerald-700 font-bold'>PERFIN.</span></h2>
                 <form onSubmit={loginUsingEmail}>

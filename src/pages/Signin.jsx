@@ -65,7 +65,7 @@ const Signin = () => {
                         />
                         <p>or</p>
                         <Button
-                            text={'Sign In with Gmail'}
+                            text={'Signin using Gmail'}
                             green={true}
                             onClick={handleSignInGmail}
                             disabled={loading}

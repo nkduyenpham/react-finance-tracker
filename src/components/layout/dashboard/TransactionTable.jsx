@@ -26,6 +26,7 @@ const TransactionTable = ({ mergedData }) => {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
+            className: 'hidden md:table-cell lg:table-cell'
         },
         {
             title: 'Type',
@@ -36,27 +37,9 @@ const TransactionTable = ({ mergedData }) => {
             title: 'Category',
             dataIndex: 'tag',
             key: 'tag',
+            className: 'hidden lg:table-cell'
         },
     ];
-
-    const small_columns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Amount',
-            dataIndex: 'amount',
-            key: 'amount',
-            render: (text) => `$${text.toFixed(2)}`, // Format amount as currency
-        },
-        {
-            title: 'Date',
-            dataIndex: 'date',
-            key: 'date',
-        },
-    ]
 
     const handleFilterChange = (value) => {
         setTypeFilter(value);

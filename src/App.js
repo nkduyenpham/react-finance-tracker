@@ -28,7 +28,7 @@ function MainLayout({children}) {
 // Auth layout with HeaderBeforeLogin
 function AuthLayout({ children }) {
   return (
-    <div className="App grid grid-cols-1">
+    <div className="App grid grid-cols-1 h-screen">
       <HeaderBeforeLogin />
       {children}
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectExpenses, selectIncome } from '../redux/finance/financeSlice';
 import FirstLineCard from '../components/layout/dashboard/FirstLineCard';
@@ -10,14 +10,13 @@ import NoTransactions from '../components/layout/dashboard/NoTransaction';
 import { fetchFinanceData } from '../utils/fetchFinanceData.js';
 const Dashboard = () => {
     const [user] = useAuthState(auth);
-    const dispatch = useDispatch();
     const expenses = useSelector(selectExpenses);
     const income = useSelector(selectIncome);
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
 
     const fetchData = useCallback(() => {
-        fetchFinanceData(user, dispatch);
-    }, [user, dispatch]);
+        fetchFinanceData(user);
+    }, [user]);
 
     useEffect(() => {
         fetchData();
@@ -31,8 +30,9 @@ const Dashboard = () => {
         return data.filter(item => item.date.startsWith(month));
     };
 
-    const filteredExpenses = filterByMonth(expenses, selectedMonth);
-    const filteredIncome = filterByMonth(income, selectedMonth);
+    // avoid re-calculating by using useMemo 
+    const filteredExpenses = useMemo(() => filterByMonth(expenses, selectedMonth), [expenses, selectedMonth])
+    const filteredIncome = useMemo(() => filterByMonth(income, selectedMonth), [income, selectedMonth]);
 
     const calculateTotal = (data) => data.reduce((acc, item) => acc + item.amount, 0);
 
